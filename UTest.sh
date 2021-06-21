@@ -5,6 +5,14 @@ source config.default
 ! [ -d failed ] && mkdir failed
 ! [ -d tests ] && mkdir tests
 
+VALGRIND=0
+LIZARD=0
+export lightred="\033[31m"
+export lightgreen="\033[32;m"
+export red="\033[31;1m"
+export green="\033[32;1m"
+export reset="\033[0m"
+
 move_files(){
     $(mv failed making.sh tests $1)
 }
@@ -20,11 +28,9 @@ lizard_inst_check(){ ### Checks if Lizard is installed
     fi
 }
 
-VALGRIND=0
-LIZARD=0
 
 ###  Using case statements to handle the flags
-while getopts ":m:hlvic" opt; do 
+while getopts ":m:hvl" opt; do 
     case $opt in
     m)  ### Move file structure command
         echo "[Moving] to $OPTARG..." >&2
@@ -44,7 +50,7 @@ while getopts ":m:hlvic" opt; do
         lizard_inst_check
         LIZARD=1
         ;;
-    \?) ### Invalid flag option used
+    \?) ### Used invalid flag
         echo "Invalid option: -$OPTARG" >&2
         exit 1
         ;;
@@ -54,3 +60,34 @@ while getopts ":m:hlvic" opt; do
         ;;
     esac
 done
+
+
+
+exe_test(){
+
+    input=$1
+	test_name=$(basename $input | cut -f 1 -d'.')
+	expected=tests/$test_name.out
+	myout=failed/$name.myout
+    cat $input
+    if ! [ -r $input ]; then
+		printf '%b' "$0: cannot read file "$input"\n${red}aborting$reset\n"
+		exit 1
+	fi
+	if ! [ -r $expected ]; then
+		printf '%b' "$0: cannot read file $expected\n${red}aborting$reset\n"
+		exit 1
+	fi
+	if make -j1 $myout > /dev/null && diff -b $expected $out &> /dev/null; then
+		printf '%b' "Test $test_name -- ${green}OK$reset\n"
+	else
+		printf '%b' "Test $test_name -- ${red}FAILED${reset}\n"
+		diff --color -b $expected $out
+		printf '%b' "$reset"
+		exit 1
+	fi
+}
+
+export -f exe_test
+
+nice parallel --progress --eta --bar --joblog failed/logs $@ exe_test ::: ./tests/*.in
