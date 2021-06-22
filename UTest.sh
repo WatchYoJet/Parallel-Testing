@@ -98,6 +98,7 @@ exe_test() { #Inspired by: Abread
 export -f exe_test
 
 nice parallel --progress --eta --bar --joblog failed/logs $@ exe_test ::: ./tests/*.in
+# "--jobs 200%" will put the script "running 2 jobs per CPU core"
 
 total=$(cat failed/logs | tail -n +2 | wc -l)
 passed=$(cat failed/logs | tail -n +2 | cut -f7 | grep '0' | wc -l)
