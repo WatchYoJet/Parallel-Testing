@@ -1,7 +1,12 @@
 #!/bin/bash
+
 source config.default
+
+
 ! [ -d failed ] && mkdir failed
 ! [ -d tests ] && mkdir tests
+
+#Inspired by: Rafdev (justdoit.sh)
 VALGRIND=0
 LIZARD=0
 export lightred="\033[31m"
@@ -9,18 +14,26 @@ export lightgreen="\033[32;m"
 export red="\033[31;1m"
 export green="\033[32;1m"
 export reset="\033[0m"
+
+
 move_files() {
     $(mv failed making.sh tests $1)
 }
+
+
 help() {
     echo "TO-DO"
 }
+
+
 lizard_inst_check() { ### Checks if Lizard is installed
     if !(which lizard >/dev/null || (pip3 list | grep lizard >/dev/null)); then
         echo "Install Lizard First!"
         exit 1
     fi
 }
+
+
 ###  Using case statements to handle the flags
 while getopts ":m:hvl" opt; do
     case $opt in
