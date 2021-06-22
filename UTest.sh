@@ -5,6 +5,8 @@ source config.default
 ! [ -d failed ] && mkdir failed
 ! [ -d tests ] && mkdir tests
 
+#Inspired by: Rafdev (justdoit.sh)
+
 VALGRIND=0
 LIZARD=0
 export lightred="\033[31m"
