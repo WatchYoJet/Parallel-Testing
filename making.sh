@@ -1,12 +1,7 @@
 #!/bin/bash
-
 source config.default
-
 ! [ -d failed ] && mkdir failed
 ! [ -d tests ] && mkdir tests
-
-#Inspired by: Rafdev (justdoit.sh)
-
 VALGRIND=0
 LIZARD=0
 export lightred="\033[31m"
@@ -14,22 +9,18 @@ export lightgreen="\033[32;m"
 export red="\033[31;1m"
 export green="\033[32;1m"
 export reset="\033[0m"
-
 move_files() {
     $(mv failed making.sh tests $1)
 }
-
 help() {
     echo "TO-DO"
 }
-
 lizard_inst_check() { ### Checks if Lizard is installed
     if !(which lizard >/dev/null || (pip3 list | grep lizard >/dev/null)); then
         echo "Install Lizard First!"
         exit 1
     fi
 }
-
 ###  Using case statements to handle the flags
 while getopts ":m:hvl" opt; do
     case $opt in
@@ -61,13 +52,10 @@ while getopts ":m:hvl" opt; do
         ;;
     esac
 done
-
 make test_comp #Compiles the project for testing
-
 echo -e "\n\n----------------------------------"
 echo "Starting"
 echo "----------------------------------"
-
 passed=0
 total=0
 exe_test() { #Inspired by: Abread
@@ -90,17 +78,12 @@ exe_test() { #Inspired by: Abread
             exit 0
         fi
     fi
-    cp ./tests/$test_name.myout ./failed
-    cp ./tests/$test_name.diff ./failed
+    mv ./tests/$test_name.myout ./failed
+    mv ./tests/$test_name.diff ./failed
     printf '%b' "Test $test_name -- ${red}FAILED${reset}\n"
     printf '%b' "$reset"
     exit 0
 }
-
 export -f exe_test
-
 nice parallel --progress --eta --bar --joblog failed/logs $@ exe_test ::: ./tests/*.in
 # "--jobs 200%" will put the script "running 2 jobs per CPU core"
-
-total=$(cat failed/logs | tail -n +2 | wc -l)
-passed=$(cat failed/logs | tail -n +2 | cut -f7 | grep '0' | wc -l)
