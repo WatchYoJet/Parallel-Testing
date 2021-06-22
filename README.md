@@ -26,7 +26,7 @@
 
 ```bash
 # Clone this project
-$ git clone https://github.com/WatchYoJet/Unit-Testing
+$ git clone https://github.com/WatchYoJet/Parallel-Testing.git
 
 # Install dependencies
 $ sudo apt-get install parallel
@@ -47,7 +47,7 @@ EXE_NAME=CompiledProject #This is the name of the binary that you want
 FILE_NAME= #Optional, this is for specific projects, I'm working on it
 PROCESSOR=1 #Faster means less stable
 ```
-The `PRECESSOR` variable ranges from 0 to:
+The `PROCESSOR` variable ranges from 0 to:
 ```bash
 $ grep -c processor /proc/cpuinfo
 ```
@@ -81,6 +81,6 @@ $ make clean
 -> File System- Failed tests not going to the right folder
 ## License ##
 
-This project is under license from MIT. For more details, see the [LICENSE](LICENSE.md) file.
+This project is under license from MIT. For more details, see the [LICENSE](LICENSE) file.
 
 <a href="#top">Back to top</a>
