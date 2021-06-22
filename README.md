@@ -26,7 +26,7 @@
 
 ```bash
 # Clone this project
-$ git clone https://github.com/WatchYoJet/Unit-Testing
+$ git clone https://github.com/WatchYoJet/Parallel-Testing.git
 
 # Install dependencies
 $ sudo apt-get install parallel
