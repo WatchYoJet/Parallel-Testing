@@ -33,7 +33,7 @@ $ sudo apt-get install parallel
 ...
 ```
 
-After this, you need to set-up the <a href="#dart-configuration">configuration</a> &#xa0;
+After this, you need to set-up the <a href="#configuration">configuration</a> &#xa0;
 
 ## Configuration ##
 
@@ -47,7 +47,7 @@ EXE_NAME=CompiledProject #This is the name of the binary that you want
 FILE_NAME= #Optional, this is for specific projects, I'm working on it
 PROCESSOR=1 #Faster means less stable
 ```
-The `PROCESSOR` variable ranges from 0 to:
+The `PROCESSOR` variable ranges from 1 to:
 ```bash
 $ grep -c processor /proc/cpuinfo
 ```
