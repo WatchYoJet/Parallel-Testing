@@ -22,25 +22,31 @@ run:
 	./$(EXE_NAME)
 
 m:
+	@chmod +x ./making.sh
 	./making.sh $(MOVE) $(filter-out $@,$(MAKECMDGOALS))
 
 h:
+	@chmod +x ./making.sh
 	@./making.sh $(HELP)
 
 v:
 	@touch v
-	@$(MAKE) -j$(PROCESSOR) v
+	@$(MAKE) -s -j$(PROCESSOR) v
 	@rm -f v
+	@chmod +x ./making.sh
 	@./making.sh $(VALGRIND)
 
 l:
 	@touch l
-	@$(MAKE) -j$(PROCESSOR) l
+	@$(MAKE) -s -j$(PROCESSOR) l
 	@rm -f l
+	@chmod +x ./making.sh
 	@./making.sh $(LIZARD)
 
 testing:
-	@$(MAKE) -j$(PROCESSOR)
+	@$(MAKE) -s -j1 clean
+	@$(MAKE) -s -j$(PROCESSOR)
+	@chmod +x ./making.sh
 	@./making.sh
 
 #I hate this so much, trust me

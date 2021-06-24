@@ -9,8 +9,7 @@ source config.default
 #Inspired by: Rafdev (justdoit.sh)
 VALGRIND=0
 LIZARD=0
-export lightred="\033[31m"
-export lightgreen="\033[32;m"
+
 export red="\033[31;1m"
 export green="\033[32;1m"
 export reset="\033[0m"
@@ -22,13 +21,22 @@ move_files() {
 
 
 help() {
-    echo "TO-DO"
+    echo -e "${green}make h${reset}       | Displays this message."
+    echo -e "${green}make${reset}         | Compiles the program on your path"
+    echo -e "${green}make run${reset}     | Compiles and runs your program so you dont have to leave the directory"
+    echo -e "${green}make v${reset}       | Runs the Testing with the "Valgrind" option (Still working on it)"
+    echo -e "${green}make l${reset}       | Runs the Testing with the "Lizard" option (Still working on it)"
+    echo -e "${green}make testing${reset} | Runs the Testing"
+    echo -e "${green}make clean${reset}   | Cleans the binary, .myout files and .diff files"
 }
 
 
 lizard_inst_check() { ### Checks if Lizard is installed
     if !(which lizard >/dev/null || (pip3 list | grep lizard >/dev/null)); then
+        echo "---------------------------"
         echo "Install Lizard First!"
+        echo -e "${green}Do: ${reset} pip install lizard"
+        echo "---------------------------"
         exit 1
     fi
 }
@@ -65,17 +73,19 @@ while getopts ":m:hvl" opt; do
         ;;
     esac
 done
+
 make test_comp #Compiles the project for testing
+
 echo -e "\n\n----------------------------------"
 echo "Starting"
 echo "----------------------------------"
+
 passed=0
 total=0
+
 exe_test() { #Inspired by: Abread
     input=$1
     test_name=$(basename $input | cut -f 1 -d'.')
-    expected=./tests/$test_name.out
-    myoutdir=./failed/$test_name.myout
     if ! [ -r $input ]; then
         printf '%b' "$0: cannot read file "$input"\n${red}aborting$reset\n"
         exit 1
@@ -85,7 +95,7 @@ exe_test() { #Inspired by: Abread
         exit 1
     fi
     if make -j1 mof $test_name >/dev/null && make -j1 difl $test_name &>/dev/null; then
-        if [ "$(wc -l <failed/$test_name.diff)" -eq 0 ]; then
+        if [ "$(wc -l <tests/$test_name.diff)" -eq 0 ]; then
             printf '%b' "Test $test_name -- ${green}OK$reset\n"
             printf '%b' "$reset"
             exit 0
@@ -97,6 +107,8 @@ exe_test() { #Inspired by: Abread
     printf '%b' "$reset"
     exit 0
 }
+
 export -f exe_test
+
 nice parallel --progress --eta --bar --joblog failed/logs $@ exe_test ::: ./tests/*.in
 # "--jobs 200%" will put the script "running 2 jobs per CPU core"

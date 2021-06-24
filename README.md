@@ -74,11 +74,9 @@ $ make clean
 ```
 ## Known Bugs ##
 
--> `make h`- Not printing all the commands\
 -> `make v`- Not running with Valgrind\
--> `make l`- Not running with Lizard (even if it checks for installation)\
--> `make testing`- Only working 100% on the second run\
--> File System- Failed tests not going to the right folder
+-> `make l`- Not running with Lizard (even if it checks for installation)
+
 ## License ##
 
 This project is under license from MIT. For more details, see the [LICENSE](LICENSE) file.
