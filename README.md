@@ -46,11 +46,6 @@ This is an example of a configuration for a WSL machine:
 PROJECT_PATH=/mnt/c/Users/pedro/Downloads #The path for your project files
 EXE_NAME=CompiledProject #This is the name of the binary that you want 
 FILE_NAME= #Optional, this is for specific projects, I'm working on it
-PROCESSOR=1 #Faster means less stable
-```
-The `PROCESSOR` variable ranges from 1 to:
-```bash
-$ nproc
 ```
 
 ## Usage ##
