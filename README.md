@@ -25,11 +25,12 @@
 ## Starting ##
 
 ```bash
+# Install dependencies
+$ sudo apt update
+$ sudo apt install parallel
+
 # Clone this project
 $ git clone https://github.com/WatchYoJet/Parallel-Testing.git
-
-# Install dependencies
-$ sudo apt-get install parallel
 ...
 ```
 
