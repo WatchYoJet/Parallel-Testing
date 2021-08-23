@@ -50,7 +50,7 @@ PROCESSOR=1 #Faster means less stable
 ```
 The `PROCESSOR` variable ranges from 1 to:
 ```bash
-$ grep -c processor /proc/cpuinfo
+$ nproc
 ```
 
 ## Usage ##
