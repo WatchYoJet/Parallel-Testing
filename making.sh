@@ -1,8 +1,5 @@
 #!/bin/bash
 
-source config.default
-
-
 ! [ -d failed ] && mkdir failed
 ! [ -d tests ] && mkdir tests
 
@@ -35,7 +32,7 @@ lizard_inst_check() { ### Checks if Lizard is installed
     if !(which lizard >/dev/null || (pip3 list | grep lizard >/dev/null)); then
         echo "---------------------------"
         echo "Install Lizard First!"
-        echo -e "${green}Do: ${reset} pip install lizard"
+        echo -e "${green}Do: ${reset} pip3 install lizard"
         echo "---------------------------"
         exit 1
     fi
@@ -101,6 +98,14 @@ exe_test() { #Inspired by: Abread
             exit 0
         fi
     fi
+
+    if ! [ -f ./tests/$test_name.diff ]; then
+        echo "----------------------------------"
+        printf '%b' "${red}Error Running The Test${reset}: $test_name\n"
+        echo "----------------------------------"
+        exit 1
+    fi
+
     mv ./tests/$test_name.myout ./failed
     mv ./tests/$test_name.diff ./failed
     printf '%b' "Test $test_name -- ${red}FAILED${reset}\n"
@@ -112,3 +117,16 @@ export -f exe_test
 
 nice parallel --progress --eta --bar --joblog failed/logs $@ exe_test ::: ./tests/*.in
 # "--jobs 200%" will put the script "running 2 jobs per CPU core"
+
+passed=$(find ./tests -iname '*.diff' -type f | wc -l)
+total=$(find ./tests -iname '*.in' -type f | wc -l)
+
+echo -e "\n\n----------------------------------"
+
+if [ $passed -eq $total ]; then
+    printf '%b' "${green}Go get your 20$reset\n"
+else 
+    printf '%b' "Score: ${red}${passed}${reset}/${total}\n"
+fi
+
+echo "----------------------------------"

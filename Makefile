@@ -1,10 +1,11 @@
-CONFIG=config.default
+CONFIG=config.mk
 include ${CONFIG}
 
 #---------Compiler-Options---------
 COMPILER=gcc
 CFLAGS=-Wall -Wextra -Werror -ansi -pedantic -g
 FILES=$(wildcard $(PROJECT_PATH)/*.c)
+PROCESSOR=$(nproc)
 #---------------Macros-------------
 # In order to change this, you'll need to do it on the making.sh file too
 HELP=-h
